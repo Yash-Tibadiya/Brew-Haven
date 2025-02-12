@@ -1,3 +1,50 @@
+function checkOpenStatus() {
+  const now = new Date();
+  const hours = now.getHours();
+  const minutes = now.getMinutes();
+  const totalMinutes = hours * 60 + minutes;
+
+  // Define open time ranges in minutes
+  const morningOpen = 7 * 60; // 7:00 AM
+  const morningClose = 13 * 60; // 1:00 PM
+  const eveningOpen = 14 * 60; // 2:00 PM
+  const eveningClose = 20 * 60; // 8:00 PM
+
+  const statusElement = document.getElementById("status");
+
+  if (
+    (totalMinutes >= morningOpen && totalMinutes < morningClose) ||
+    (totalMinutes >= eveningOpen && totalMinutes < eveningClose)
+  ) {
+    statusElement.textContent = "Open";
+  } else {
+    statusElement.textContent = "Closed";
+  }
+}
+
+// Run check on page load
+checkOpenStatus();
+// Refresh every minute
+setInterval(checkOpenStatus, 60000);
+// Load Lucide icons
+lucide.createIcons();
+
+// First FAQ (Open by Default)
+document.addEventListener("DOMContentLoaded", function () {
+  const faqButton = document.querySelector(".faq-button");
+  const faqAnswer = document.querySelector(".faq-answer");
+
+  // Ensure it's open by default
+  faqAnswer.classList.add("active");
+
+  faqButton.addEventListener("click", function () {
+    faqAnswer.classList.toggle("active");
+  });
+
+  // Load Lucide icons
+  lucide.createIcons();
+});
+
 // Navbar Scroll Effect
 const navbar = document.getElementById("navbar");
 const logoIcon = document.querySelector("#logo i");
@@ -81,7 +128,7 @@ const contactForm = document.getElementById("contact-form");
 contactForm.addEventListener("submit", (e) => {
   e.preventDefault();
   let isValid = true;
-  
+
   // Reset errors
   document
     .querySelectorAll(".text-red-500")
